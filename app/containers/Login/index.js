@@ -3,7 +3,6 @@
  */
 
 import React from 'react';
-import { InputCustom } from '../../res/components/Input/styles';
 import {
   Container,
   Wrapper,
@@ -12,8 +11,8 @@ import {
   InputPassword,
   Flex,
   Checkboxstyled,
-  Link,
   ButtonStyled,
+  LinkStyled,
 } from './stylesLogin';
 
 const Login = () => (
@@ -27,15 +26,17 @@ const Login = () => (
       <Flex direction="row" wrap="wrap" mgb="24px">
         <Checkboxstyled className="marginright" />
         <Text>Đồng ý với </Text>
-        <Link> Điều khoản sử dụng</Link>
+        <LinkStyled> Điều khoản sử dụng</LinkStyled>
       </Flex>
       <ButtonStyled className="margin">
-        <Text fw = '600' className="buttontext">Đăng nhập</Text>
+        <Text fw="600" className="buttontext">
+          Đăng nhập
+        </Text>
       </ButtonStyled>
-        <Flex justify = 'space-between'>
-            <Link>Đăng ký</Link>
-            <Link>Quên Mật Khẩu</Link>
-        </Flex>
+      <Flex justify="space-between">
+        <LinkStyled>Đăng ký</LinkStyled>
+        <LinkStyled>Quên Mật Khẩu</LinkStyled>
+      </Flex>
     </Wrapper>
   </Container>
 );

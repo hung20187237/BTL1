@@ -11,6 +11,7 @@ import { Switch, Route } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
 
 import Login from '../Login/LoadableLogin';
+import Home from '../Home/LoadableHome';
 import ErrorPage from '../../res/components/ErrorPage';
 
 import GlobalStyle from '../../global-styles';
@@ -23,7 +24,7 @@ export default function App() {
         <Switch>
           <Route exact path="/" component={Login} />
           <Route exact path="/login" component={Login} />
-          
+          <Route exact path="/home" component={Home} />
           <Route path="" render={() => <ErrorPage code="404" />} />
         </Switch>
         <GlobalStyle />

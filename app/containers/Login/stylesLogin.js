@@ -113,7 +113,7 @@ export const Checkboxstyled = styled(Checkbox)`
   }
 `;
 
-export const Link = styled.span`
+export const LinkStyled = styled.span`
   color: #038fde;
   cursor: pointer;
   font-weight: 500;
