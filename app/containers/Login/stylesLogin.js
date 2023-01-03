@@ -72,6 +72,13 @@ export const InputStyled = styled(Input)`
     line-height: 1.3;
     border-radius: 6px;
   }
+
+  &.ant-input-affix-wrapper {
+    padding: 7.9px 11px;
+    color: #545454;
+    line-height: 1.3;
+    border-radius: 6px;
+  }
   &.margin {
     margin-bottom: 24px;
   }
@@ -96,6 +103,10 @@ export const Flex = styled.div`
   align-items: center;
   margin-bottom: ${props => props.mgb};
   justify-content: ${props => props.justify};
+  width: ${props => props.wid};
+  padding: ${props => props.pd};
+  position: ${props => props.position};
+  background: ${props => props.background};
 `;
 
 export const Checkboxstyled = styled(Checkbox)`
@@ -136,6 +147,18 @@ export const ButtonStyled = styled(Button)`
     padding: 0 15px;
     outline: 0;
     border-radius: 6px;
+    max-width: ${props => props.wid};
+  }
+  &.buttonadd {
+    background: #fa8b34;
+    background-color: #fa8b34 !important;
+    border-color: #fa8b34 !important;
+  }
+  &.buttonesc {
+    background: #ffffff;
+    background-color: #ffffff !important;
+    border-color: #fa8b34 !important;
+    color: #fa8b34 !important;
   }
   &.margin {
     margin-bottom: 24px;

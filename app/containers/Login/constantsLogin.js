@@ -2,6 +2,7 @@
  * ...
  */
 
-import { REDUX_KEY } from 'utils/constants';
+export const LOGIN_ERROR = 'LOGIN_ERROR';
+export const REDUX_KEY = 'login';
 
-export const RESET_REDUX = `${REDUX_KEY.login}/RESET_REDUX`;
+export const LOGIN = 'LOGIN';

@@ -1,8 +1,9 @@
 import { Header } from 'antd/lib/layout/layout';
 import Sider from 'antd/lib/layout/Sider';
 import styled from 'styled-components';
-import { Menu, Modal, Radio, Select } from 'antd';
+import { Layout, Menu, Modal, Popover } from 'antd';
 import { Content } from 'antd/es/layout/layout';
+import Table from '../../res/components/Table';
 
 export const HeaderStyled = styled(Header)`
   &.ant-layout-header {
@@ -101,11 +102,6 @@ export const ContentStyled = styled(Content)`
 `;
 
 export const Box = styled.div`
-  margin-bottom: ${props => props.mgb};
-  width: ${props => props.wid};
-  padding: ${props => props.pd};
-  max-width: ${props => props.maxWidth};
-  background: ${props => props.background};
   &.modalbox {
     display: flex;
     flex-direction: row;
@@ -116,95 +112,15 @@ export const Box = styled.div`
     order: 1;
   }
   &.modalboxinput {
-    margin-bottom: 24px;
-  }
-  &.BoxPopover {
-    display: inline-grid;
-    text-align: center;
-    justify-items: center;
-    border-bottom: 1px solid #f0f0f0;
-  }
-  &.BoxGrid {
-    display: inline-grid;
+    margin-bottom: 10px;
   }
 `;
 
-export const ModalStyled = styled(Modal)`
-  .ant-modal-content {
-    position: relative;
-    background-color: #fff;
-    background-clip: padding-box;
-    border: 0;
-    border-radius: 16px;
-    box-shadow: 0 3px 6px -4px rgb(0 0 0 / 12%), 0 6px 16px 0 rgb(0 0 0 / 8%),
-      0 9px 28px 8px rgb(0 0 0 / 5%);
-    pointer-events: auto;
-    padding: 0;
-
-    .ant-modal-header {
-      padding: 16px 20px;
-      color: #545454;
-      background: #c5ced9;
-      border-bottom: 1px solid #e8e8e8;
-      border-radius: 16px 16px 0 0;
-    }
-
-    .ant-modal-title {
-      margin: auto;
-      color: #535353;
-      font-weight: 600;
-      font-size: 16px;
-      line-height: 22px;
-      word-wrap: break-word;
-      text-align: center;
-    }
-
-    .ant-modal-body {
-      padding: 24px 12px;
-      font-size: 14px;
-      line-height: 1.3;
-      word-wrap: break-word;
-    }
-    .ant-modal-footer {
-      padding: 16px 16px;
-      text-align: right;
-      background: transparent;
-      border-top: 1px solid #e8e8e8;
-      display: flex;
-      justify-content: center;
-    }
-    .ant-modal-close {
-      display: none;
-    }
+export const PopoverStyled = styled(Popover)`
+  .ant-popover-title {
+    padding: 15px 16px 4px;
   }
-`;
-
-export const SelectStyled = styled(Select)`
-  &.ant-select-single:not(.ant-select-customize-input) .ant-select-selector {
-    width: 100%;
-    height: 36px;
-    border-radius: 6px;
-    padding: 7.9px 11px;
-  }
-
-  &.ant-select-single .ant-select-selector .ant-select-selection-placeholder {
-    line-height: 20px;
-  }
-  &.ant-select-single:not(.ant-select-customize-input)
-    .ant-select-selector
-    .ant-select-selection-search-input {
-    height: 34px;
-  }
-  &.ant-select-single .ant-select-selector .ant-select-selection-item {
-    line-height: 20px;
-  }
-`;
-
-export const RadioStyled = styled(Radio)`
-  .ant-radio-checked .ant-radio-inner {
-    border-color: #fa8b33;
-  }
-  .ant-radio-inner::after {
-    background-color: #fa8b33;
+  &.ant-popover-inner-content {
+    padding: 20px 16px;
   }
 `;

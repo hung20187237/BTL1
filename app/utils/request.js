@@ -23,17 +23,13 @@ function checkStatus(response) {
 }
 
 const instance = axios.create({
-  baseURL: `${
-    process.env.NODE_ENV === 'production'
-      ? window.SystemConfig.URL
-      : 'https://reqres.in/api'
-  }/Api`,
+  baseURL: `https://apiedl.bkav.com/api`,
 });
 
 instance.defaults.timeout = 25000;
 
 instance.interceptors.request.use(req => {
-  req.headers.Authorization = `Bearer ${Cookies.get(COOKIES.access_token)}`;
+  req.headers.Authorization = `Bearer ${Cookies.get(COOKIES.accessToken)}`;
   return req;
 });
 
@@ -55,11 +51,11 @@ instance.interceptors.response.use(
   },
 );
 
-export async function axiosGet(path, body) {
+export async function axiosGet(path) {
   if (MOCK_DATA_GET[path] && MOCK_DATA_GET[path].switch)
     return MOCK_DATA_GET[path];
   const res = await instance
-    .post(path, body)
+    .get(path)
     .then(checkStatus)
     .catch(error => {
       if (!JSON.parse(JSON.stringify(error)).response) throw error;

@@ -3,10 +3,10 @@ export const DAEMON = '@@saga-injector/daemon';
 export const ONCE_TILL_UNMOUNT = '@@saga-injector/once-till-unmount';
 
 export const COOKIES = {
-  access_token: 'access_token',
+  accessToken: 'access_token',
 };
 
 export const REDUX_KEY = {
   app: 'app',
-  login: 'login'
+  login: 'login',
 };

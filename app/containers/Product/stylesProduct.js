@@ -1,7 +1,7 @@
 import { Header } from 'antd/lib/layout/layout';
 import Sider from 'antd/lib/layout/Sider';
 import styled from 'styled-components';
-import { Menu, Modal, Radio, Select } from 'antd';
+import { Menu, Modal, Popover, Radio, Select } from 'antd';
 import { Content } from 'antd/es/layout/layout';
 
 export const HeaderStyled = styled(Header)`
@@ -101,11 +101,6 @@ export const ContentStyled = styled(Content)`
 `;
 
 export const Box = styled.div`
-  margin-bottom: ${props => props.mgb};
-  width: ${props => props.wid};
-  padding: ${props => props.pd};
-  max-width: ${props => props.maxWidth};
-  background: ${props => props.background};
   &.modalbox {
     display: flex;
     flex-direction: row;
@@ -117,15 +112,6 @@ export const Box = styled.div`
   }
   &.modalboxinput {
     margin-bottom: 24px;
-  }
-  &.BoxPopover {
-    display: inline-grid;
-    text-align: center;
-    justify-items: center;
-    border-bottom: 1px solid #f0f0f0;
-  }
-  &.BoxGrid {
-    display: inline-grid;
   }
 `;
 

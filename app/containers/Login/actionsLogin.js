@@ -2,10 +2,20 @@
  * ...
  */
 
-import { RESET_REDUX } from './constantsLogin';
+// eslint-disable-next-line import/named
+import { LOGIN, LOGIN_ERROR } from './constantsLogin';
 
-export function resetRedux() {
+export function login(body, callback) {
   return {
-    type: RESET_REDUX,
+    type: LOGIN,
+    body,
+    callback,
+  };
+}
+
+export function loginError(error) {
+  return {
+    type: LOGIN_ERROR,
+    error,
   };
 }

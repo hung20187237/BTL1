@@ -3,18 +3,20 @@
  */
 
 import produce from 'immer';
-import { RESET_REDUX } from './constantsLogin';
+// eslint-disable-next-line import/named
+import { LOGIN } from './constantsLogin';
 
 export const initialState = {
   isLoading: false,
+  infoUser: {},
 };
 
 /* eslint-disable default-case, no-param-reassign */
 const loginReducer = (state = initialState, action) =>
   produce(state, draft => {
     switch (action.type) {
-      case RESET_REDUX:
-        draft.isLoading = false;
+      case LOGIN:
+        draft.isLoading = true;
         break;
     }
   });

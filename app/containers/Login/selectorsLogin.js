@@ -3,17 +3,20 @@
  */
 
 import { createSelector } from 'reselect';
-import { REDUX_KEY } from '../../utils/constants';
+// eslint-disable-next-line import/named
+import { REDUX_KEY } from './constantsLogin';
 import { initialState } from './reducerLogin';
 
-export const selectLogin = state =>
-  state[REDUX_KEY.login] || initialState;
+export const selectLogin = state => state[REDUX_KEY.login] || initialState;
 
-function selectLoading() {
-  return createSelector(
+export const selectLoading = () =>
+  createSelector(
     selectLogin,
     state => state.isLoading,
   );
-}
 
-export { selectLoading };
+export const selectInfoUser = () =>
+  createSelector(
+    selectLogin,
+    state => state.infoUser,
+  );
