@@ -3,7 +3,7 @@
  */
 
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import Cookies from 'js-cookie';
 import { useHistory } from 'react-router-dom';
 import {
@@ -20,7 +20,6 @@ import {
 import { useInjectReducer } from '../../utils/injectReducer';
 import { useInjectSaga } from '../../utils/injectSaga';
 import * as actions from './actionsLogin';
-import * as selectors from './selectorsLogin';
 import reducer from './reducerLogin';
 import saga from './sagaLogin';
 import { REDUX_KEY } from './constantsLogin';
@@ -33,8 +32,6 @@ const Login = () => {
 
   const history = useHistory();
   const dispatch = useDispatch();
-  const loading = useSelector(selectors.selectLoading);
-  const infoUser = useSelector(selectors.selectInfoUser);
 
   const onClickLogin = () => {
     const body = {

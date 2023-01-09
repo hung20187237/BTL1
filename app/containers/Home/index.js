@@ -1,17 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { DatePicker } from 'antd';
 
-import moment from 'moment';
 import { useDispatch, useSelector } from 'react-redux';
 import { ButtonStyled, Flex, InputStyled, Text } from '../Login/stylesLogin';
-import {
-  ContentStyled,
-  Box,
-  ModalStyled,
-  SelectStyled,
-  RadioStyled,
-  BoxIcon,
-} from './stylesHome';
+import { ContentStyled, BoxIcon } from './stylesHome';
 import { Searchicon } from '../../images/icon/Searchicon';
 import { Addicon } from '../../images/icon/Addicon';
 import Table from '../../res/components/Table';
@@ -23,92 +14,89 @@ import * as actions from './actionsHome';
 import * as selectors from './selectorsHome';
 import reducer from './reducerHome';
 import saga from './sagaHome';
-import { REDUX_KEY } from './constantsHome';
-
-// const dataexam = [];
-// for (let i = 0; i < 334; i++) {
-//   dataexam.push({
-//     stt: i,
-//     key: i,
-//     username: `098${i}${Math.floor(Math.random() * 100000) + 10000}`,
-//     fullname: `Edrward ${i}`,
-//     sdt: `098${i}${Math.floor(Math.random() * 100000) + 10000}`,
-//     email: `Example${i}@gmail.com`,
-//     diachi: 'Ha Noi',
-//     ngaysinh: '29-02-2000',
-//     quyen: 'Nhóm kỹ thuật viên',
-//     phancap: 'ffasdd',
-//   });
-// }
+import { REDUX_KEY } from '../../utils/constants';
+import ModalAddUsers from '../ModalAddUsers';
+import ModalFixUsers from '../ModalFixUsers';
 
 export default function Home() {
   const [data, setData] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalOpen1, setIsModalOpen1] = useState(false);
-  const [value, setValue] = useState(1);
-  const [valueData, setValueData] = useState(data[1]);
-  const key = REDUX_KEY;
+  const key = REDUX_KEY.home;
 
   useInjectReducer({ key, reducer });
   useInjectSaga({ key, saga });
 
   const dispatch = useDispatch();
-  const loading = useSelector(selectors.selectLoading());
   const listUser = useSelector(selectors.selectListUser());
-
+  // const infoUser = useEffect(selectors.selectGetInfo());
   useEffect(() => {
-    dispatch(actions.getList());
+    const body = {
+      PageSize: 50,
+      CurrentPage: 1,
+      SortCol: 'UserName',
+      IsDesc: true,
+    };
+    dispatch(
+      actions.getList(body, res => {
+        setData(res.Users);
+      }),
+    );
   }, []);
 
+  useEffect(() => {
+    console.log(listUser);
+  }, [listUser]);
   const columns = [
     {
       title: 'STT',
       dataIndex: 'stt',
-      key: '1',
+      key: 'index',
       width: 50,
+      render: (text, record, index) => index,
     },
     {
       title: 'Tên đăng nhập',
       width: 100,
-      dataIndex: 'username',
+      dataIndex: 'UserName',
       key: 'username',
       fixed: 'left',
     },
     {
       title: 'Tên đầy đủ',
       width: 150,
-      dataIndex: 'fullname',
+      dataIndex: 'FullName',
       key: 'fullname',
       fixed: 'left',
     },
 
     {
       title: 'Số điện thoại',
-      dataIndex: 'sdt',
+      dataIndex: 'Phone',
       key: '2',
       width: 100,
     },
     {
       title: 'Email',
-      dataIndex: 'email',
+      dataIndex: 'Email',
       key: '3',
       width: 150,
     },
     {
       title: 'Ngày sinh',
-      dataIndex: 'ngaysinh',
+      dataIndex: 'Birthday',
       key: '4',
       width: 100,
     },
     {
       title: 'Nhóm quyền',
-      dataIndex: 'quyen',
+      dataIndex: 'RoleGroupName',
       key: '5',
       width: 150,
     },
     {
       title: 'Phân cấp',
-      dataIndex: 'phancap',
+      dataIndex: 'HierarchyName',
       key: '6',
       width: 100,
     },
@@ -117,9 +105,9 @@ export default function Home() {
       key: 'operation',
       fixed: 'right',
       width: 100,
-      render: () => (
+      render: (text, record) => (
         <Flex>
-          <BoxIcon onClick={showModal1}>
+          <BoxIcon onClick={() => showModal1(record)}>
             <Editicon />
           </BoxIcon>
           <BoxIcon>
@@ -130,13 +118,6 @@ export default function Home() {
     },
   ];
 
-  console.log(valueData);
-  const onChange = e => {
-    console.log('radio checked', e.target.value);
-    setValue(e.target.value);
-  };
-
-  const dateFormat = 'DD-MM-YYYY';
   const showModal = () => {
     setIsModalOpen(true);
   };
@@ -146,10 +127,15 @@ export default function Home() {
   const handleCancel = () => {
     setIsModalOpen(false);
   };
-  const showModal1 = () => {
+  const showModal1 = datainfo => {
+    console.log(datainfo.UserGUID);
+    const body = {
+      UserGUID: datainfo.UserGUID,
+    };
+    dispatch(actions.getInfo(body));
     setIsModalOpen1(true);
-    // setValuedata(data[i]);
   };
+  // console.log(infoUser);
   const handleOk1 = () => {
     setIsModalOpen1(false);
   };
@@ -182,239 +168,8 @@ export default function Home() {
           />
         </Flex>
       </ContentStyled>
-      {isModalOpen && (
-        <ModalStyled
-          title="Thêm mới tài khoản"
-          visible
-          onOk={handleOk}
-          onCancel={handleCancel}
-          footer={[
-            <ButtonStyled
-              key="back"
-              onClick={handleCancel}
-              className="buttonesc"
-            >
-              Đóng(Esc)
-            </ButtonStyled>,
-            <ButtonStyled key="submit" onClick={handleOk} className="buttonadd">
-              Ghi lại(Ctrl+5)
-            </ButtonStyled>,
-          ]}
-        >
-          <Box className="modalbox">
-            <Box className="modalforminput">
-              <Box className="modalboxinput">
-                <InputStyled
-                  required=""
-                  placeholder="Tên đăng nhâp *"
-                  type="text"
-                />
-              </Box>
-              <Box className="modalboxinput">
-                <InputStyled
-                  required=""
-                  placeholder="Tên đầy đủ *"
-                  type="text"
-                />
-              </Box>
-              <Box className="modalboxinput">
-                <InputStyled
-                  required=""
-                  placeholder="Số điện thoại *"
-                  type="text"
-                />
-              </Box>
-              <Box className="modalboxinput">
-                <InputStyled required="" placeholder="Email" type="text" />
-              </Box>
-              <Box className="modalboxinput">
-                <InputStyled required="" placeholder="Địa chỉ" type="text" />
-              </Box>
-              <Box className="modalboxinput">
-                <DatePicker
-                  defaultValue={moment('2015-06-06', dateFormat)}
-                  style={{
-                    width: '100%',
-                    borderRadius: '6px',
-                    padding: '7.9px 11px',
-                  }}
-                />
-              </Box>
-              <Box className="modalboxinput">
-                <SelectStyled
-                  showSearch
-                  style={{
-                    width: '100%',
-                  }}
-                  placeholder="Search to Select"
-                  optionFilterProp="children"
-                  options={[
-                    {
-                      value: '1',
-                      label: 'Not Identified',
-                    },
-                    {
-                      value: '2',
-                      label: 'Closed',
-                    },
-                    {
-                      value: '3',
-                      label: 'Communicated',
-                    },
-                    {
-                      value: '4',
-                      label: 'Identified',
-                    },
-                    {
-                      value: '5',
-                      label: 'Resolved',
-                    },
-                    {
-                      value: '6',
-                      label: 'Cancelled',
-                    },
-                  ]}
-                />
-              </Box>
-              <Flex justify="space-between">
-                <Text>Trạng Thái:</Text>
-                <Flex wid="70%" justify="space-between" pd="0 30px 0 0">
-                  <RadioStyled.Group onChange={onChange} value={value}>
-                    <RadioStyled value={1}>Đang hoạt động</RadioStyled>
-                    <RadioStyled value={2}>Không hoạt động</RadioStyled>
-                  </RadioStyled.Group>
-                </Flex>
-              </Flex>
-            </Box>
-          </Box>
-        </ModalStyled>
-      )}
-      {isModalOpen1 && (
-        <ModalStyled
-          title="Chỉnh sửa thông tin tài khoản"
-          visible
-          onOk={handleOk1}
-          onCancel={handleCancel1}
-          footer={[
-            <ButtonStyled
-              key="back"
-              onClick={handleCancel1}
-              className="buttonesc"
-            >
-              Đóng(Esc)
-            </ButtonStyled>,
-            <ButtonStyled
-              key="submit"
-              onClick={handleOk1}
-              className="buttonadd"
-            >
-              Ghi lại(Ctrl+5)
-            </ButtonStyled>,
-          ]}
-        >
-          <Box className="modalbox">
-            <Box className="modalforminput">
-              <Box className="modalboxinput">
-                <InputStyled
-                  required=""
-                  defaultValue={valueData.username}
-                  placeholder="Tên đăng nhâp *"
-                  type="text"
-                  disabled
-                />
-              </Box>
-              <Box className="modalboxinput">
-                <InputStyled
-                  required=""
-                  defaultValue={valueData.fullname}
-                  placeholder="Tên đầy đủ *"
-                  type="text"
-                />
-              </Box>
-              <Box className="modalboxinput">
-                <InputStyled
-                  required=""
-                  defaultValue={valueData.sdt}
-                  placeholder="Số điện thoại *"
-                  type="text"
-                />
-              </Box>
-              <Box className="modalboxinput">
-                <InputStyled
-                  required=""
-                  defaultValue={valueData.email}
-                  placeholder="Email"
-                  type="text"
-                />
-              </Box>
-              <Box className="modalboxinput">
-                <InputStyled
-                  required=""
-                  defaultValue="Ha Noi"
-                  placeholder="Địa chỉ"
-                  type="text"
-                />
-              </Box>
-              <Box className="modalboxinput">
-                <DatePicker
-                  defaultValue={moment(valueData.ngaysinh, dateFormat)}
-                  style={{
-                    width: '100%',
-                    borderRadius: '6px',
-                    padding: '7.9px 11px',
-                  }}
-                />
-              </Box>
-              <Box className="modalboxinput">
-                <SelectStyled
-                  showSearch
-                  defaultValue={valueData.quyen}
-                  style={{
-                    width: '100%',
-                  }}
-                  placeholder="Search to Select"
-                  optionFilterProp="children"
-                  options={[
-                    {
-                      value: '1',
-                      label: 'Not Identified',
-                    },
-                    {
-                      value: '2',
-                      label: 'Closed',
-                    },
-                    {
-                      value: '3',
-                      label: 'Communicated',
-                    },
-                    {
-                      value: '4',
-                      label: 'Identified',
-                    },
-                    {
-                      value: '5',
-                      label: 'Resolved',
-                    },
-                    {
-                      value: '6',
-                      label: 'Cancelled',
-                    },
-                  ]}
-                />
-              </Box>
-              <Flex justify="space-between">
-                <Text>Trạng Thái:</Text>
-                <Flex wid="70%" justify="space-between" pd="0 30px 0 0">
-                  <RadioStyled.Group onChange={onChange} value={value}>
-                    <RadioStyled value={1}>Đang hoạt động</RadioStyled>
-                    <RadioStyled value={2}>Không hoạt động</RadioStyled>
-                  </RadioStyled.Group>
-                </Flex>
-              </Flex>
-            </Box>
-          </Box>
-        </ModalStyled>
-      )}
+      {isModalOpen && <ModalAddUsers ok={handleOk} cancel={handleCancel} />}
+      {isModalOpen1 && <ModalFixUsers ok={handleOk1} cancel={handleCancel1} />}
     </>
   );
 }

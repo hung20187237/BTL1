@@ -3,12 +3,10 @@
  */
 
 import produce from 'immer';
-// eslint-disable-next-line import/named
 import { LOGIN } from './constantsLogin';
 
 export const initialState = {
   isLoading: false,
-  infoUser: {},
 };
 
 /* eslint-disable default-case, no-param-reassign */

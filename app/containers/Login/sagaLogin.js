@@ -9,7 +9,7 @@ export function* handleLogin(action) {
   const path = `/user/login`;
   try {
     const res = yield call(axiosPost, path, action.body);
-    if (res.status === 200) action.callback(res);
+    if (res.status === 200) action.callback(res.data);
   } catch (error) {
     yield put(actions.loginError(error));
   }

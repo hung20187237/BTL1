@@ -4,6 +4,7 @@ import { COOKIES } from './constants';
 import { handleError } from './handleError';
 import { MOCK_DATA_GET } from '../mockData/mockDataGet';
 import { MOCK_DATA_POST } from '../mockData/mockDataPost';
+import { MOCK_DATA_PUT } from '../mockData/mockDataPut';
 
 /**
  * Checks if a network request came back fine, and throws an error if not
@@ -68,6 +69,17 @@ export async function axiosPost(path, body) {
     return MOCK_DATA_POST[path];
   const res = await instance
     .post(path, body)
+    .then(checkStatus)
+    .catch(error => {
+      if (!JSON.parse(JSON.stringify(error)).response) throw error;
+    });
+  return res;
+}
+export async function axiosPut(path, body) {
+  if (MOCK_DATA_PUT[path] && MOCK_DATA_PUT[path].switch)
+    return MOCK_DATA_POST[path];
+  const res = await instance
+    .put(path, body)
     .then(checkStatus)
     .catch(error => {
       if (!JSON.parse(JSON.stringify(error)).response) throw error;
